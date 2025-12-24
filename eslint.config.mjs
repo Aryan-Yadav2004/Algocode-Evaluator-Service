@@ -26,9 +26,9 @@ export default tseslint.config(
     semi: ["error", "always"],
     "no-multi-spaces": "error",
     "no-multiple-empty-lines": "error",
-    "no-unused-vars": ["warn"],
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
+    "no-unused-vars": 'warn'
   }
 }
 );
