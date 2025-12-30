@@ -3,6 +3,7 @@ import express from 'express';
 import serverConfig from './config/server.config.js';
 import sampleQueueProducer from './producers/sampleQueueProducer.js';
 import apiRouter from './routes/index.js';
+import errorHandler from './utils/errorHandler.js';
 import { SampleWorker } from './workers/SampleWorker.js';
 
 const app = express();
@@ -11,7 +12,7 @@ const app = express();
 
 app.use('/api', apiRouter);
 
-
+app.use(errorHandler);
 
 app.listen(serverConfig.PORT, () => {
     console.log('server started at *:' + 3000);
