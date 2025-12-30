@@ -26,7 +26,7 @@ export default tseslint.config(
       "simple-import-sort/exports": "error",
       "no-floating-promises":"off",
       "require-await": "off",
-      "no-unsafe-argument": "off"
+      "@typescript-eslint/no-unsafe-argument": "off"
     }
   }
 );

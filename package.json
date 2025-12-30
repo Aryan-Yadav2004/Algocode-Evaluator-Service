@@ -31,6 +31,8 @@
     "typescript-eslint": "^8.50.1"
   },
   "dependencies": {
+    "@bull-board/api": "^6.16.2",
+    "@bull-board/express": "^6.16.2",
     "bullmq": "^5.66.3",
     "concurrently": "^9.2.1",
     "dotenv": "^17.2.3",

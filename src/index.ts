@@ -8,7 +8,9 @@ import { SampleWorker } from './workers/SampleWorker.js';
 const app = express();
 
 
+
 app.use('/api', apiRouter);
+
 
 
 app.listen(serverConfig.PORT, () => {
@@ -16,10 +18,17 @@ app.listen(serverConfig.PORT, () => {
 
     SampleWorker('SampleQueue');
 
-    sampleQueueProducer({
-        name: 'Sanket',
+    sampleQueueProducer('SampleJob',{
+        name: 'Ayush',
         company: 'Microsoft',
         position: 'SDE L61',
         loaction: 'Remote | BLR | Nodia'
-    }).then(res => console.log(res + 'hi')).catch(err => console.log(err));
+    },2).then(res => console.log(res + 'hi')).catch(err => console.log(err));
+
+    sampleQueueProducer('SampleJob',{
+        name: 'Aryan',
+        company: 'Microsoft',
+        position: 'SDE L61',
+        loaction: 'Remote | BLR | Nodia'
+    },1).then(res => console.log(res + 'hi')).catch(err => console.log(err));
 });
