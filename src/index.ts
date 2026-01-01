@@ -14,9 +14,9 @@ app.use('/api', apiRouter);
 
 app.use(errorHandler);
 
+
 app.listen(serverConfig.PORT, () => {
     console.log('server started at *:' + 3000);
-
     SampleWorker('SampleQueue');
 
     sampleQueueProducer('SampleJob',{

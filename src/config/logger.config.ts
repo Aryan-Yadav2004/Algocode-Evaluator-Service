@@ -1,6 +1,7 @@
+import  "winston-mongodb"; // sirf side-effect import kro
+
 import type {TransformableInfo} from 'logform';
 import winston  from "winston";
-import { MongoDB } from "winston-mongodb";
 
 import serverConfig from './server.config.js';
 const allowedTransports  = [];
