@@ -5,10 +5,12 @@ import sampleQueueProducer from './producers/sampleQueueProducer.js';
 import apiRouter from './routes/index.js';
 import errorHandler from './utils/errorHandler.js';
 import { SampleWorker } from './workers/SampleWorker.js';
-
+import bodyParser from "body-parser";
 const app = express();
 
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
+app.use(bodyParser.text());
 
 app.use('/api', apiRouter);
 
