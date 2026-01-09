@@ -21,13 +21,16 @@ export default tseslint.config(
       "simple-import-sort": simpleImportSort,
     },
     rules: {
-      semi: ["error", "always"],
+      // semi: ["error", "never"],
       "simple-import-sort/imports": "error",
       "simple-import-sort/exports": "error",
       "no-floating-promises":"off",
       "require-await": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unused-vars": "off",
+      'typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/no-explicit-any' : 'off',
+      '@typescript-eslint/no-floating-promises' : 'off'
     }
   }
 );
