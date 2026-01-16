@@ -1,8 +1,10 @@
 import Docker from 'dockerode'
 
+import pullImage from './pullImage.js'
+
 async function createContainer(imageName: string, cmdExecutable: string[]) {
     const docker = new Docker()
-
+    await pullImage(imageName);
     const container = await docker.createContainer({
         Image: imageName,
         Cmd: cmdExecutable,

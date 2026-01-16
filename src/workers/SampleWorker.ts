@@ -1,4 +1,4 @@
-import { Worker } from 'bullmq'
+import {Job, Worker } from 'bullmq'
 
 import redisConnection from '../config/redis.config.js'
 import SampleJob from '../jobs/SampleJob.js'
@@ -8,7 +8,7 @@ function delay(ms: number) {
 }
 
 export function SampleWorker(queueName: string) {
-    new Worker<Record<string, string>>(queueName, async (job) => {
+    new Worker<Record<string, string>>(queueName, async (job: Job) => {
         if (job.name === 'SampleJob') {
             const sampleJobInstance = new SampleJob(job.data) // ✅ now typed
             sampleJobInstance.handle(job)
