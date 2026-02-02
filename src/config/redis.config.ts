@@ -10,4 +10,4 @@ const redisConfig = {
 
 const redisConnection = new Redis(redisConfig)
 
-export default redisConnection
+export default redisConnection;
