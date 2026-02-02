@@ -1,6 +1,6 @@
 // import type { Job } from 'bullmq';
 
-import type { Job } from 'bullmq'
+import type { Job } from 'bullmq';
 
 import type { IJob } from '../types/bullMqJobDefination.js'
 import type { submissionPayload } from '../types/submissionPayload.js'
@@ -11,12 +11,12 @@ export default class SubmissionJob implements IJob {
     name: string
     payload?: Record<string, submissionPayload>
     constructor(payload: Record<string,submissionPayload>){
-        this.payload = payload
-        this.name = this.constructor.name
+        this.payload = payload;
+        this.name = this.constructor.name;
     }
 
     handle = async (job?: Job) => {
-        console.log('Handler of the job called')
+        console.log('Handler of the job called');
         console.log(this.payload);
         if (job && this.payload) {
             const key = Object.keys(this.payload)[0]?.toString();
@@ -47,9 +47,9 @@ export default class SubmissionJob implements IJob {
     }
 
     failed = (job?: Job): void => {
-        console.log('Job failed')
+        console.log('Job failed');
         if (job) {
-            console.log(job.id)
+            console.log(job.id);
         }
     }
 
