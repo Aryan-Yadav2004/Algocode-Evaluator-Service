@@ -3,9 +3,9 @@
 import type { Job } from 'bullmq';
 
 import type { IJob } from '../types/bullMqJobDefination.js'
+import type { ExecutionResponse } from '../types/CodeExecutorStrategy.js'
 import type { submissionPayload } from '../types/submissionPayload.js'
 import createExecutor from '../utils/ExecutorFactory.js'
-import type { ExecutionResponse } from '../types/CodeExecutorStrategy.js'
 
 export default class SubmissionJob implements IJob {
     name: string
@@ -15,7 +15,7 @@ export default class SubmissionJob implements IJob {
         this.name = this.constructor.name;
     }
 
-    handle = async (job?: Job) => {
+    handle = async (job?: Job)  => {
         console.log('Handler of the job called');
         console.log(this.payload);
         if (job && this.payload) {
@@ -29,10 +29,12 @@ export default class SubmissionJob implements IJob {
                 const codeLanguage = this.payload[key]?.language;
                 const code = this.payload[key]?.code;
                 const inputTestCase = this.payload[key]?.inputTestCase;
-                if(codeLanguage && code && inputTestCase) {
+                const outputTestCase = this.payload[key]?.outputTestCase;
+                if(codeLanguage && code && inputTestCase && outputTestCase) {
                     const strategy = createExecutor(codeLanguage);
+                    console.log(strategy);
                     if(strategy !== null) {
-                        const response : ExecutionResponse = await  strategy.execute(code, inputTestCase);
+                        const response : ExecutionResponse = await  strategy.execute(code, inputTestCase, outputTestCase);
                         if(response.status === "COMPLETED"){
                             console.log("Code executed successfully");
                             console.log(response);

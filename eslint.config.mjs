@@ -28,10 +28,12 @@ export default tseslint.config(
       "require-await": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unused-vars": "off",
-      'typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
       '@typescript-eslint/no-explicit-any' : 'off',
       '@typescript-eslint/no-floating-promises' : 'off',
-      '@typescript-eslint/no-unsafe-member-access' : 'off'
+      '@typescript-eslint/no-unsafe-member-access' : 'off',
+      '@typescript-eslint/prefer-promise-reject-errors': 'off',
+      '@typescript-eslint/no-misused-promise': 'off'
     }
   }
 );

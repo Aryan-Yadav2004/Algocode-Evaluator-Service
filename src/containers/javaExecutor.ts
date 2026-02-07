@@ -9,9 +9,9 @@ import decodeDockerStream from './dockerHelper.js'
 
 
 class JavaExecutor implements CodeExecutorStrategy {
-    async execute(code: string, inputTestCase: string): Promise<ExecutionResponse> {
+    async execute(code: string, inputTestCase: string, outputTestCase: string): Promise<ExecutionResponse> {
         const rawLogBuffer: Buffer[] = []
-
+        console.log(code, inputTestCase, outputTestCase);
         console.log("initialising a new java container")
         const runCommand = `echo '${code.replace(/'/g, `'\\*'`)}' > Main.java && javac Main.java && echo '${inputTestCase.replace(/'/g, `'\\*'`)}' | java Main`;
         // const pythonDockerContainer = await createContainer(PYTHON_IMAGE, ['python3','-c', code, 'stty -echo']);

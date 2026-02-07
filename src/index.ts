@@ -4,11 +4,10 @@ import express from 'express'
 import serverConfig from './config/server.config.js'
 // import runCpp from "./containers/runCppDocker.js"
 // import sampleQueueProducer from './producers/sampleQueueProducer.js'
-import submissionQueueProducer from "./producers/submissionQueueProducer.js";
 import apiRouter from './routes/index.js'
+import { submission_queue } from "./utils/constanst.js"
 import errorHandler from './utils/errorHandler.js'
 import { SubmissionWorker } from "./workers/SubmissionWorker.js"
-import { submission_queue } from "./utils/constanst.js"
 const app = express()
 
 app.use(bodyParser.json())
@@ -40,28 +39,28 @@ app.listen(serverConfig.PORT, () => {
     //     loaction: 'Remote | BLR | Nodia'
     // },1).then(res => console.log(res + 'hi')).catch(err => console.log(err))
    
-    const code = `
-    #include<iostream>
-    using namespace std;
+//     const code = `
+//     #include<iostream>
+//     using namespace std;
 
-    int main() {
-        int x;
-        cin>>x;
-        cout<<"Value of x is "<<x<<endl;
-        for(int i = 0; i < x; i++){
-            cout<<i<<endl;
-        }
-        return 0;
-    }
-`
+//     int main() {
+//         int x;
+//         cin>>x;
+//         cout<<"Value of x is "<<x<<endl;
+//         for(int i = 0; i < x; i++){
+//             cout<<i<<endl;
+//         }
+//         return 0;
+//     }
+// `
 
-    const inputTestCase = '100';
+//     const inputTestCase = '100';
 
-    submissionQueueProducer({"1234" : {
-        language: 'CPP',
-        inputTestCase,
-        code
-    }});
+//     submissionQueueProducer({"1234" : {
+//         language: 'CPP',
+//         inputTestCase,
+//         code
+//     }});
 
     // runCpp(code, inputTestCase);
 
