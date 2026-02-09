@@ -34,9 +34,9 @@ class PythonExecutor implements CodeExecutorStrategy {
 
         try {
             const codeResponse : string  =  await this.fetchDecodedStream(loggerStream, rawLogBuffer );
-            return {output: codeResponse, status: "COMPLETED"};
+            return {output: codeResponse, status: "COMPLETED", userId: "", submissionId: ""};
         } catch (error) {
-            return {output: error as string, status: "ERROR"};
+            return {output: error as string, status: "ERROR", userId: "", submissionId: ""};
         } finally {
             await pythonDockerContainer.remove(); 
         }
@@ -45,10 +45,8 @@ class PythonExecutor implements CodeExecutorStrategy {
     fetchDecodedStream(loggerStream: NodeJS.ReadableStream, rawLogBuffer: Buffer[]) : Promise<string> {
         return new Promise((res, rej) => {
             loggerStream.on('end',() => {
-                console.log(rawLogBuffer);
                 const completeBuffer = Buffer.concat(rawLogBuffer);
                 const decodeStream = decodeDockerStream(completeBuffer);
-                console.log(decodeStream);
                 if(decodeStream.stderr){
                     rej(decodeStream.stderr);
                 }

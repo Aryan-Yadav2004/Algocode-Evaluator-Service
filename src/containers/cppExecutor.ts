@@ -35,9 +35,9 @@ class CppExecutor implements CodeExecutorStrategy {
 
         try {
             const codeResponse : string  =  await this.fetchDecodedStream(loggerStream, rawLogBuffer );
-            return {output: codeResponse, status: "COMPLETED"};
+            return {output: codeResponse, status: "COMPLETED", userId: "", submissionId: ""};
         } catch (error) {
-            return {output: error as string, status: "ERROR"};
+            return {output: error as string, status: "ERROR", userId: "", submissionId: ""};
         } finally {
             await cppDockerContainer.remove(); 
         }
@@ -46,10 +46,10 @@ class CppExecutor implements CodeExecutorStrategy {
     fetchDecodedStream(loggerStream: NodeJS.ReadableStream, rawLogBuffer: Buffer[]) : Promise<string> {
         return new Promise((res, rej) => {
             loggerStream.on('end',() => {
-                console.log(rawLogBuffer);
+                // console.log(rawLogBuffer);
                 const completeBuffer = Buffer.concat(rawLogBuffer);
                 const decodeStream = decodeDockerStream(completeBuffer);
-                console.log(decodeStream);
+                // console.log(decodeStream);
                 if(decodeStream.stderr){
                     rej(decodeStream.stderr);
                 }
