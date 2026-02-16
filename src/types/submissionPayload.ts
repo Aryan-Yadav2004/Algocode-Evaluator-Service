@@ -1,7 +1,12 @@
+
+type testCase = {
+    input: string,
+    output: string
+}
+
 export type submissionPayload = {
     userId: string,
     code: string,
     language: string,
-    inputTestCase: string,
-    outputTestCase: string
+    testCases: testCase[],
 }

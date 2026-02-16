@@ -29,25 +29,27 @@ export default class SubmissionJob implements IJob {
                 // }
                 const codeLanguage = this.payload[key]?.language;
                 const code = this.payload[key]?.code;
-                const inputTestCase = this.payload[key]?.inputTestCase;
-                const outputTestCase = this.payload[key]?.outputTestCase;
+                const testCases = this.payload[key]?.testCases;
                 const userId = this.payload[key]?.userId;
-                if(codeLanguage && code && inputTestCase && outputTestCase && userId) {
+                if(codeLanguage && code && testCases && userId) {
                     const strategy = createExecutor(codeLanguage);
                     if(strategy !== null) {
-                        const response : ExecutionResponse = await  strategy.execute(code, inputTestCase, outputTestCase);
-                        response.userId = userId;
-                        response.submissionId = key;
-                        if(response.status === "COMPLETED"){
-                            console.log("Code executed successfully");
-                            console.log(response);
-                            await evaluatorQueueProducer(response);
-                        } else {
-                            console.log("Something went wrong with code execution");
-                            console.log(response);
-                            await evaluatorQueueProducer(response);
+                        for(let i = 0; i < testCases.length; i++){
+                            const testCase = testCases[i];
+                            if(testCase && (testCase.input || testCase.input === "") && (testCase.output || testCase.output === "")) {
+                                const response : ExecutionResponse = await  strategy.execute(code, testCase.input, testCase.output);
+                                response.userId = userId;
+                                response.submissionId = key;
+                                if(response.status !== "SUCCESS"){
+                                    console.log("Something went wrong with code execution");
+                                    console.log(response);
+                                    await evaluatorQueueProducer(response);
+                                    return;
+                                }
+                                console.log(response);
+                            }
                         }
-
+                        await evaluatorQueueProducer({output: "", status: "SUCCESS", userId: userId, submissionId: key});
                     }
                 }
             }

@@ -34,8 +34,22 @@ class PythonExecutor implements CodeExecutorStrategy {
 
         try {
             const codeResponse : string  =  await this.fetchDecodedStream(loggerStream, rawLogBuffer );
-            return {output: codeResponse, status: "COMPLETED", userId: "", submissionId: ""};
-        } catch (error) {
+            if(codeResponse.trim() === outputTestCase.trim()){
+                return {output: codeResponse, status: "SUCCESS", userId: "", submissionId: ""};
+            }
+            else{
+                return {output: codeResponse, status: "WA", userId: "", submissionId: ""};
+            }
+        } catch (error:any) {
+            const errMsg: string = typeof error === "string" ? error : error.message;
+            if(error === "TLE"){
+                await pythonDockerContainer.kill();
+                return {output: "ERROR", status: "TLE", userId: "", submissionId: ""};
+            }
+            if(errMsg.includes("OutOfMemoryError")){//ye docker ka error issme explicitly kill nahi krna padta
+                return {output: "ERROR", status: "MLE", userId: "", submissionId: ""};
+            }
+            console.log("Error occured", error);
             return {output: error as string, status: "ERROR", userId: "", submissionId: ""};
         } finally {
             await pythonDockerContainer.remove(); 
@@ -44,7 +58,14 @@ class PythonExecutor implements CodeExecutorStrategy {
 
     fetchDecodedStream(loggerStream: NodeJS.ReadableStream, rawLogBuffer: Buffer[]) : Promise<string> {
         return new Promise((res, rej) => {
+
+            const timeout = setTimeout(() => {
+                console.log("Timeout called");
+                rej("TLE");
+            }, 2000);
+
             loggerStream.on('end',() => {
+                clearTimeout(timeout);
                 const completeBuffer = Buffer.concat(rawLogBuffer);
                 const decodeStream = decodeDockerStream(completeBuffer);
                 if(decodeStream.stderr){
