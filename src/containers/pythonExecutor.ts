@@ -62,7 +62,7 @@ class PythonExecutor implements CodeExecutorStrategy {
             const timeout = setTimeout(() => {
                 console.log("Timeout called");
                 rej("TLE");
-            }, 2000);
+            }, 4000);
 
             loggerStream.on('end',() => {
                 clearTimeout(timeout);

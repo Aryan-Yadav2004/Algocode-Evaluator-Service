@@ -64,7 +64,7 @@ class JavaExecutor implements CodeExecutorStrategy {
             const timeout = setTimeout(() => {
                 console.log("Timeout called");
                 rej("TLE");
-            }, 2000 * 4);
+            }, 2000);//last time 1e9 pe tle and 1e8 pe work
 
             loggerStream.on('end',() => {
                 //this callback execute when the stream ends
