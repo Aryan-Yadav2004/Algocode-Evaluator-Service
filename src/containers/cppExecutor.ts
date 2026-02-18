@@ -21,6 +21,8 @@ class CppExecutor implements CodeExecutorStrategy {
 
         console.log("Started the docker container");
 
+        
+
         const loggerStream = await cppDockerContainer.logs({
             stdout: true,
             stderr: true,
@@ -62,7 +64,7 @@ class CppExecutor implements CodeExecutorStrategy {
             const timeout = setTimeout(() => {
                 console.log("Timeout called");
                 rej("TLE");
-            }, 2000);
+            }, 10000);
 
             loggerStream.on('end',() => {
                 // console.log(rawLogBuffer);
