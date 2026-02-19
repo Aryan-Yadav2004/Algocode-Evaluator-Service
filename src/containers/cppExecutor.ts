@@ -64,7 +64,7 @@ class CppExecutor implements CodeExecutorStrategy {
             const timeout = setTimeout(() => {
                 console.log("Timeout called");
                 rej("TLE");
-            },+3000);
+            },8000);
 
             loggerStream.on('end',() => {
                 // console.log(rawLogBuffer);

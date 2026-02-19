@@ -13,7 +13,13 @@ class JavaExecutor implements CodeExecutorStrategy {
         const rawLogBuffer: Buffer[] = [];
         console.log(code, inputTestCase, outputTestCase);
         console.log("initialising a new java container")
-        const runCommand = `echo '${code.replace(/'/g, `'\\*'`)}' > Main.java && javac Main.java && echo '${inputTestCase.replace(/'/g, `'\\*'`)}' | java Main`;
+        const runCommand = `
+echo "${Buffer.from(code).toString('base64')}" | base64 -d > Main.java
+echo "${Buffer.from(inputTestCase).toString('base64')}" | base64 -d > input.txt
+javac Main.java
+java Main < input.txt
+`;
+
         // const pythonDockerContainer = await createContainer(PYTHON_IMAGE, ['python3','-c', code, 'stty -echo']);
         const javaDockerContainer = await createContainer(JAVA_IMAGE, ['/bin/sh', '-c', runCommand]);
         // starting / booting the corresponding docker container.
@@ -64,7 +70,7 @@ class JavaExecutor implements CodeExecutorStrategy {
             const timeout = setTimeout(() => {
                 console.log("Timeout called");
                 rej("TLE");
-            }, 4000);//last time 1e9 pe tle and 1e8 pe work
+            }, 7000);//last time 1e9 pe tle and 1e8 pe work
 
             loggerStream.on('end',() => {
                 //this callback execute when the stream ends
