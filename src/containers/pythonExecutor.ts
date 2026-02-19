@@ -12,7 +12,18 @@ class PythonExecutor implements CodeExecutorStrategy {
             const rawLogBuffer: Buffer[] = []
         console.log(code, inputTestCase, outputTestCase);
         console.log("initialising python container")
-        const runCommand = `echo '${code.replace(/'/g, `'\\*'`)}' > test.py && echo '${inputTestCase.replace(/'/g, `'\\*'`)}' | python3 test.py`;
+        const runCommand = `
+cat << 'EOF' > test.py
+${code}
+EOF
+
+cat << 'EOF' > input.txt
+${inputTestCase}
+EOF
+
+python3 test.py < input.txt
+`;
+
         // const pythonDockerContainer = await createContainer(PYTHON_IMAGE, ['python3','-c', code, 'stty -echo']);
         const pythonDockerContainer = await createContainer(PYTHON_IMAGE, ['/bin/sh', '-c', runCommand]);
         // starting / booting the corresponding docker container.
